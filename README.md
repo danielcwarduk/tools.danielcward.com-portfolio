@@ -18,3 +18,5 @@ Browser verification: create `verification-results/`, launch the production prev
 `.openai/hosting.json` stores the Sites identity and static output directory. Reuse that project ID for future updates. Source is synchronized through the Sites workflow helper; production deployments use a saved source version and matching build archive. The custom hostname requires the DNS routing and ownership-validation records returned by the hosting provider.
 
 The original local editor remains in `/Users/clark/dev-projects/mermaid`; this project is the source for the hosted website.
+
+Mermaid icon: official vector mark from https://mermaid.js.org/favicon.svg, recoloured in the site olive/cream palette. The Tools header has no icon.
