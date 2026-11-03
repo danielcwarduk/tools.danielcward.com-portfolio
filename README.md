@@ -42,3 +42,13 @@ Export downloads the whole rendered diagram as SVG or PNG, independently of canv
 Tips & tricks opens on first load, with Show on each visit enabled by default. The checkbox preference is stored in the browser. Reopen it from Shortcuts → Tips & tricks. Existing diagrams are preserved. The tips grid scrolls independently on small screens while its header and preference remain visible.
 
 Run `node verification/export-tips.mjs` against the production preview for download, alpha-channel, label alignment/spacing, multiline, colour, zoom, pending-edit, preference and responsive-layout checks. Other browser suites opt out of startup tips so they test editing directly.
+
+## Diagram templates and sequences
+
+New opens a compact picker for flowchart, sequence, state, class, entity relationship, Gantt, pie, timeline, mind map and user journey templates. Create replaces the current source after an explicit warning; Cancel preserves it and Undo restores the previous document. The source header determines the active editor automatically. Other diagram types keep live preview and image/source export.
+
+Simple sequence diagrams support participant/actor selection, label and ID editing, participant order, message endpoints/styles/labels, message order, reversal, activation and deletion. Double-left-click or right-click opens the same 250 ms context editor. N creates a participant; Shift+P and Shift+A create a participant or actor. Drag between participants to draw a message, or press C, choose with WASD and confirm with Enter. R focuses type/style, E label, F2 participant ID. Delete/Backspace/X deletes; source history also covers visual changes. Tips and shortcut hints adapt to sequences.
+
+The sequence editor preserves comments, numbering, notes and untouched lines. Implicit participants become explicit when required to preserve their order. Deleting a participant removes its messages/notes; deleting an activation start clears newly dangling activation endings. Invalid activation edits or reorders show an error without changing source. Advanced fragments, semicolon-separated statements, math/HTML labels and unsupported entities remain in source preview. Individual sequence colours are controlled by Mermaid theme configuration; this release retains the neutral canvas/sequence theme.
+
+Verification: `node verification/sequence-model.mjs` and `node verification/diagram-types.mjs`, plus the existing flowchart/export suites. The specification and delivery contract are in `docs/features/diagram-types.md`.

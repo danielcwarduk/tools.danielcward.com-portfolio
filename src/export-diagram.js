@@ -36,7 +36,7 @@ export async function diagramSvg(svg){
  const clone=svg.cloneNode(true),originals=[...svg.querySelectorAll('foreignObject')],copies=[...clone.querySelectorAll('foreignObject')];
  originals.forEach((element,index)=>copies[index].replaceWith(vectorLabel(element)));
  clone.querySelectorAll('.connection-hit').forEach(e=>e.remove());
- clone.querySelectorAll('.selected,.selected-edge,.selected-group,.connection-source,.drop-target').forEach(e=>e.classList.remove('selected','selected-edge','selected-group','connection-source','drop-target'));
+ clone.querySelectorAll('.selected,.selected-edge,.selected-group,.connection-source,.drop-target,.sequence-selected,.sequence-source').forEach(e=>e.classList.remove('selected','selected-edge','selected-group','connection-source','drop-target','sequence-selected','sequence-source'));
  let view=svg.viewBox.baseVal;if(!view.width||!view.height)view=svg.getBBox();
  const width=Math.max(1,Math.ceil(view.width)),height=Math.max(1,Math.ceil(view.height));
  clone.setAttribute('xmlns',ns);clone.setAttribute('viewBox',`${view.x} ${view.y} ${view.width} ${view.height}`);clone.setAttribute('width',width);clone.setAttribute('height',height);clone.style.removeProperty('max-width');clone.style.removeProperty('width');clone.style.removeProperty('height');clone.style.background='transparent';

@@ -1,12 +1,12 @@
-export function keyHints({focus,valid,shift,alt,control,space,contextGrid,connecting,connectionTarget,nodes,group,edge,inGroup}){
+export function keyHints({focus,valid,sourceOnly,shift,alt,control,space,contextGrid,connecting,connectionTarget,nodes,group,edge,inGroup}){
  if(focus==='reverse')return {mode:'Connection',keys:[['Enter','Reverse direction'],['R','Line type'],['F','Colour'],['E','Label'],['F2','ID'],['Esc','Dismiss'],['Ctrl / ⌘ + Z','Undo']]};
  if(focus==='zoom')return {mode:'Zoom controls',keys:[['↑ / ↓','Adjust'],['Tab','Next control']]};
  if(focus==='text')return {mode:'Editing text',keys:[['Type','Edit text'],['Esc','Close menu']]};
- if(focus==='source')return {mode:'Source',keys:[['Ctrl / ⌘ + Z','Undo'],['Ctrl + ] / [','Indent / outdent']]};
+ if(focus==='source')return {mode:'Source',keys:[['Ctrl / ⌘ + Z','Undo'],['Tab / Shift + Tab','Indent / outdent']]};
  if(focus==='dialog')return {mode:'Dialog',keys:[['Tab','Next control'],['Esc','Close']]};
  if(focus==='context'){const keys=[];if(contextGrid)keys.push(['← ↑ ↓ →','Choose']);keys.push(['Enter',contextGrid?'Apply':'Activate']);if(!group)keys.push(['R',edge?'Line type':'Shape'],['F','Colour']);keys.push(['E','Label'],['F2','ID'],['Esc','Close']);return {mode:edge?'Edit connection':group?'Edit subgraph':'Edit shape',keys};}
  if(focus!=='canvas')return {mode:'Canvas shortcuts',keys:[['Click canvas','Activate'],['F1','All shortcuts']]};
- if(!valid)return {mode:'Preview updating',keys:[['F1','All shortcuts']]};
+ if(!valid)return sourceOnly?{mode:'Source preview',keys:[['Edit source','Update diagram'],['F1','Shortcuts']]}:{mode:'Preview updating',keys:[['F1','All shortcuts']]};
  if(control)return {mode:'History',keys:shift||alt?[]:[['Z','Undo'],['Y','Redo']]};
  if(shift)return {mode:'Shift · Create shape',keys:alt?[]:[['R','Rectangle'],['C','Circle'],['D','Diamond'],['B','Database'],['T','Terminator'],['P','Parallelogram'],['F','Document']]};
  if(space&&!alt)return {mode:'Space · Pan',keys:[['W A S D','Pan canvas']]};

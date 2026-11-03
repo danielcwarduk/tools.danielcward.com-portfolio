@@ -1,7 +1,7 @@
 export function focusContextField(root, field = 'label') {
   if(field==='shape'&&root.dataset.editorKey?.startsWith('node:')&&root.querySelector('.compact-shapes')&&!root.querySelector('.compact-shapes [aria-pressed="true"]')){const more=root.querySelector('[aria-label="More shapes"]');if(more&&!more.hidden)more.click();}
   const choices = {
-    shape: ['.compact-shapes button[aria-pressed="true"]', '.connection-types button[aria-pressed="true"]', '.compact-shapes button', '.connection-types button'],
+    shape: ['[data-context-field="shape"]', '.compact-shapes button[aria-pressed="true"]', '.connection-types button[aria-pressed="true"]', '.compact-shapes button', '.connection-types button'],
     colour: ['.colour-swatch[aria-pressed="true"]', '.colour-swatch'],
     id: ['input[name="id"]'],
     label: ['input[name="label"]', 'textarea[name="edge-label"]'],
