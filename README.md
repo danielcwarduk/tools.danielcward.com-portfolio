@@ -24,3 +24,13 @@ Mermaid icon: official vector mark from https://mermaid.js.org/favicon.svg, reco
 ## Reverse connections
 
 Select an arrow or finish drawing a connection to show a small focused reverse button above it. Press Enter to reverse, Escape to dismiss, or use Reverse direction beside Delete in the connection menu. Reversal preserves the label, line style and endpoint markers. The menu action coalesces with pending edits using the existing 250 ms autosave. The floating action follows pan/zoom and does not steal focus from source or text editing. Run `node verification/reverse.mjs` against the production preview to verify these interactions.
+
+## Unified editing
+
+Double-left-click or right-click a shape or arrow to open its context editor with Label focused. R focuses shape choices (or arrow line type), F focuses colour, E focuses label, and F2 focuses ID. These controls also accept the same shortcuts while a non-text control has focus; arrow keys navigate the icon grids and Enter applies the focused choice. Text fields retain normal typing. Tab follows normal browser focus order; it no longer explicitly switches between source and canvas. The separate reshape picker is removed.
+
+Arrows use editable native Mermaid IDs (`A Edge1@--> B`). New connections receive unique IDs; existing unnamed connections gain an ID on their first context edit. Names are unique across nodes, subgraphs and arrows. Shared `studioEdgeColor_*` classes colour arrow lines, heads and labels without filling curved paths. Rename/delete/Default update class membership and remove unused preset definitions. Existing node colours and user classes are preserved.
+
+For keyboard connections, select a source and press C, move through candidates with WASD, then press Enter to connect to the highlighted destination. Navigation leaves source and undo history unchanged until confirmation. Escape or C cancels. The fixed source has a dashed outline. Pointer selection and handle dragging still create connections immediately.
+
+Verification: `node verification/unified-editor.mjs`, `node verification/keyboard-connect.mjs`, `node verification/reverse.mjs`, `node verification/label-gaps.mjs`, and `node verification/site.mjs` against the production preview.
