@@ -14,3 +14,6 @@ export function encodeConnectionLabel(text){const escaped={'#':'#35;','&':'#amp;
 // The UI labels endpoints by stable ID order; Mermaid encodes start-only arrows by reversing the source endpoints.
 export function displayConnection(edge){if(edge.from>edge.to){const settings=connectionSettings(edge.type);return {...edge,from:edge.to,to:edge.from,type:connectionToken(settings.style,settings.end,settings.start)};}return {...edge};}
 export function mermaidConnection(edge){const settings=connectionSettings(edge.type);if(settings.start&&!settings.end)return {...edge,from:edge.to,to:edge.from,type:connectionToken(settings.style,false,true)};return edge;}
+
+// Swap direction without changing the label, line style, or endpoint markers.
+export function reverseConnection(edge){return {...edge,from:edge.to,to:edge.from};}

@@ -20,3 +20,7 @@ Browser verification: create `verification-results/`, launch the production prev
 The original local editor remains in `/Users/clark/dev-projects/mermaid`; this project is the source for the hosted website.
 
 Mermaid icon: official vector mark from https://mermaid.js.org/favicon.svg, recoloured in the site olive/cream palette. The Tools header has no icon.
+
+## Reverse connections
+
+Select an arrow or finish drawing a connection to show a small focused reverse button above it. Press Enter to reverse, Escape to dismiss, or use Reverse direction beside Delete in the connection menu. Reversal preserves the label, line style and endpoint markers. The menu action coalesces with pending edits using the existing 250 ms autosave. The floating action follows pan/zoom and does not steal focus from source or text editing. Run `node verification/reverse.mjs` against the production preview to verify these interactions.

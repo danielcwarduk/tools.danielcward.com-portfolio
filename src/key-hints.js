@@ -1,4 +1,5 @@
 export function keyHints({focus,valid,shift,alt,control,space,connecting,nodes,group,edge,inGroup}){
+ if(focus==='reverse')return {mode:'Connection',keys:[['Enter','Reverse direction'],['E','Edit arrow'],['Esc','Dismiss'],['Ctrl / ⌘ + Z','Undo']]};
  if(focus==='zoom')return {mode:'Zoom controls',keys:[['↑ / ↓','Adjust'],['Tab','Next control']]};
  if(focus==='text')return {mode:'Editing text',keys:[['Type','Edit text'],['Esc','Close menu']]};
  if(focus==='source')return {mode:'Source',keys:[['Tab','Canvas'],['Ctrl / ⌘ + Z','Undo'],['Ctrl + ] / [','Indent / outdent']]};
