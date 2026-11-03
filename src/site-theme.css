@@ -11,3 +11,5 @@ button,input,select,#menu textarea{background:var(--core-cream);color:var(--core
 #marquee{border-color:var(--core-orange);background:#b34a0015}.handle{border-color:var(--core-orange);background:var(--core-cream)}.selected>rect,.selected>polygon,.selected>circle,.selected>path,.selected>ellipse{stroke:var(--core-orange)!important;filter:drop-shadow(0 2px 5px #b34a0020)}.selected-edge,.selected-group>rect{stroke:var(--core-orange)!important}.connection-preview{color:var(--core-olive)}.endpoint-toggle small{color:var(--fg-muted)}
 
 .brand .mermaid-mark{width:24px;height:24px;flex:none;border-radius:5px}@media(max-width:600px){.brand .mermaid-mark{width:20px;height:20px}}
+
+#scene .edgeLabel,#scene .edgeLabel *{background-color:transparent!important}#scene .edgeLabel rect,#scene .edgeLabel .labelBkg{fill:transparent!important}
