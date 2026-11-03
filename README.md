@@ -34,3 +34,11 @@ Arrow IDs are optional. New connections and ordinary label/style edits stay unna
 For keyboard connections, select a source and press C, move through candidates with WASD, then press Enter to connect to the highlighted destination. Navigation leaves source and undo history unchanged until confirmation. Escape or C cancels. The fixed source has a dashed outline. Pointer selection and handle dragging still create connections immediately.
 
 Verification: `node verification/unified-editor.mjs`, `node verification/keyboard-connect.mjs`, `node verification/reverse.mjs`, `node verification/label-gaps.mjs`, and `node verification/site.mjs` against the production preview.
+
+## Image export and tips
+
+Export downloads the whole rendered diagram as SVG or PNG, independently of canvas pan/zoom. PNG uses the canvas colour by default, with a transparent-background option. SVG is transparent, includes vector text and an embedded diagram font, and excludes selection highlights and editor hit areas. Export flushes pending context edits and waits for the current preview; invalid source cannot export a stale diagram. Source `.mmd` downloads remain available separately.
+
+Tips & tricks opens on first load, with Show on each visit enabled by default. The checkbox preference is stored in the browser. Reopen it from Shortcuts → Tips & tricks. Existing diagrams are preserved. The tips grid scrolls independently on small screens while its header and preference remain visible.
+
+Run `node verification/export-tips.mjs` against the production preview for download, alpha-channel, label alignment/spacing, multiline, colour, zoom, pending-edit, preference and responsive-layout checks. Other browser suites opt out of startup tips so they test editing directly.

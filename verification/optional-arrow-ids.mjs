@@ -7,6 +7,7 @@ async function set(text=plain){await page.keyboard.press('Escape');await page.lo
 async function selectEdge(){const q=await page.locator('.flowchart-link').first().evaluate(e=>{const p=e.getPointAtLength(e.getTotalLength()/2),m=e.getScreenCTM();return {x:p.x*m.a+p.y*m.c+m.e,y:p.x*m.b+p.y*m.d+m.f};});await page.mouse.click(q.x,q.y);}
 async function edit(){await selectEdge();await page.keyboard.press('e');}
 async function test(name,fn){try{await fn();results.push({name,pass:true});console.log('PASS',name);}catch(e){results.push({name,pass:false,error:e.message});console.log('FAIL',name,e.message);}}
+await page.addInitScript(()=>localStorage.setItem('mermaid-show-tips','false'));
 await page.goto(process.env.SITE_URL||'http://127.0.0.1:5176/mermaid/');await ready();
 await test('drawing a connection leaves its source and visible label unnamed',async()=>{await set();await page.locator('g.node[id*="-flowchart-A-"]').click();await page.keyboard.press('c');await page.locator('g.node[id*="-flowchart-B-"]').click();await ready();assert(!named(await source()),await source());assert((await page.locator('g.edgeLabel').allTextContents()).every(s=>!s.trim()));});
 await test('connected shape creation does not assign an arrow ID',async()=>{await set();await page.locator('g.node[id*="-flowchart-A-"]').click();await page.keyboard.press('n');await ready();assert((await source()).includes('A --> Step1')&&!named(await source()),await source());});

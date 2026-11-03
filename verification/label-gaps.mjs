@@ -1,6 +1,7 @@
 import {chromium} from 'playwright';
 import fs from 'node:fs/promises';
 const browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[];page.on('pageerror',e=>errors.push(e.message));const assert=(v,m)=>{if(!v)throw Error(m);};
+await page.addInitScript(()=>localStorage.setItem('mermaid-show-tips','false'));
 await page.goto(process.env.SITE_URL||'http://127.0.0.1:5176/mermaid/');
 async function ready(){await page.waitForFunction(()=>document.querySelector('#canvas')?.dataset.editable==='true');}
 await ready();
