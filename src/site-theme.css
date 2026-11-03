@@ -13,3 +13,5 @@ button,input,select,#menu textarea{background:var(--core-cream);color:var(--core
 .brand .mermaid-mark{width:24px;height:24px;flex:none;border-radius:5px}@media(max-width:600px){.brand .mermaid-mark{width:20px;height:20px}}
 
 #scene .edgeLabel,#scene .edgeLabel *{background-color:transparent!important}#scene .edgeLabel rect,#scene .edgeLabel .labelBkg{fill:transparent!important}
+
+.zoom-controls button:hover,.zoom-controls #zoom-preset:hover,.zoom-controls #zoom-slider:hover{background-color:var(--bg-subtle)}.zoom-controls #zoom-slider:hover{border-radius:999px;accent-color:#8f3b00}
