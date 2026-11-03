@@ -34,4 +34,4 @@ function syncCategoryColors(m){if(!m.extras.some(x=>x.startsWith('%% --- Visual 
 export function syncColors(m){syncCategoryColors(m);syncColourOverrides(m);}
 
 export function allIdentifiers(m){return [...m.nodes,...m.groups,...m.edges].map(item=>item.id).filter(Boolean);}
-export function nextEdgeId(m){const ids=new Set(allIdentifiers(m));let i=1;while(ids.has('Edge'+i))i++;return 'Edge'+i;}
+export function nextEdgeId(m){const ids=new Set(allIdentifiers(m));let i=1;while(ids.has('e'+i))i++;return 'e'+i;}

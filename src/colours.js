@@ -39,3 +39,5 @@ export function syncColourOverrides(m){
  m.extras=inside.length?[...block.outside,start,...inside,end]:block.outside;
 }
 export function hasUserClasses(m){const block=read(m);return block.outside.some(line=>/^class(?:Def)?\s/.test(line));}
+
+export function edgeRequiresId(m,id,resetPreset=false){if(!id)return false;const block=read(m);return [...block.outside,...block.inside.filter(line=>!resetPreset||!owned.test(line.match(classLine)?.[2]||''))].some(line=>{const a=line.match(classLine);return a&&a[1].split(',').includes(id);});}
