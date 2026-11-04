@@ -52,3 +52,11 @@ Simple sequence diagrams support participant/actor selection, label and ID editi
 The sequence editor preserves comments, numbering, notes and untouched lines. Implicit participants become explicit when required to preserve their order. Deleting a participant removes its messages/notes; deleting an activation start clears newly dangling activation endings. Invalid activation edits or reorders show an error without changing source. Advanced fragments, semicolon-separated statements, math/HTML labels and unsupported entities remain in source preview. Individual sequence colours are controlled by Mermaid theme configuration; this release retains the neutral canvas/sequence theme.
 
 Verification: `node verification/sequence-model.mjs` and `node verification/diagram-types.mjs`, plus the existing flowchart/export suites. The specification and delivery contract are in `docs/features/diagram-types.md`.
+
+## Canvas and context refinements
+
+Fit is an explicit zoom mode. Adding or editing content keeps the actual on-screen scale and location when manually zoomed/panned; choose Fit to frame the whole diagram again. Shift-click toggles multi-selection and Shift-drag extends a marquee selection. New flowchart shape IDs use the first available S number, without changing existing names.
+
+The shape picker uses dedicated miniature geometries for every shape. Eighteen mnemonic Shift shortcuts share one registry with the bottom hints and Shortcuts dialog. Autosave status occupies a fixed heading slot, preventing menu movement. Arrow labels use standard text inputs; line breaks and literal backslashes are preserved. The rounded orange focus ring is painted above the scene.
+
+Verification: `node verification/refinements.mjs`; details in `docs/features/editor-refinements.md`.

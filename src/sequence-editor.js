@@ -1,3 +1,4 @@
+import {labelInputValue,labelFromInput} from './label-input';
 import {parseSequence,serializeSequence,sequenceMessages,messageStyles,addParticipant,updateParticipant,removeParticipant,updateMessage,removeMessage,moveMessage} from './sequence-model';
 import {bindContextShortcuts,focusContextField} from './context-focus';
 
@@ -54,7 +55,7 @@ export function createSequenceEditor(api){
   function actionError(error){const feedback=root.querySelector('.autosave-feedback');if(feedback)feedback.hidden=false;root.querySelector('.error').textContent=error.message;}
   function save(change){if(current()!==expectedSource)throw Error('The diagram changed. Reopen this item to edit its current version.');commit(change);expectedSource=current();}
   root.append(api.contextHeader(item.kind==='participant'?'Participant':'Message',item.kind==='participant'?'Delete participant and its messages':'Delete message',()=>session,()=>{selection=item;remove();}));
-  function input(name,title,value,options){const label=document.createElement('label');label.textContent=title;const control=document.createElement(options?'select':name==='edge-label'?'textarea':'input');control.name=name;control.value=value;control.autocomplete='off';if(options){for(const [v,text]of options){const o=document.createElement('option');o.value=v;o.textContent=text;control.append(o);}control.value=value;}control.addEventListener(options?'change':'input',()=>session.change());label.append(control);root.append(label);fields[name]=control;return control;}
+  function input(name,title,value,options){const label=document.createElement('label');label.textContent=title;const control=document.createElement(options?'select':'input');control.name=name;control.value=name==='edge-label'?labelInputValue(value):value;control.autocomplete='off';if(options){for(const [v,text]of options){const o=document.createElement('option');o.value=v;o.textContent=text;control.append(o);}control.value=value;}control.addEventListener(options?'change':'input',()=>session.change());label.append(control);root.append(label);fields[name]=control;return control;}
   if(item.kind==='participant'){
    const p=model.participants.find(p=>p.id===item.id);const types=input('participant-type','Type',p.type,[['participant','Participant'],['actor','Actor']]);types.dataset.contextField='shape';
    input('id','Variable / ID',p.id);input('label','Label',p.label);
@@ -72,7 +73,7 @@ export function createSequenceEditor(api){
     const button=document.createElement('button');button.type='button';button.textContent=title;button.disabled=delta!==0&&(item.index+delta<0||item.index+delta>=sequenceMessages(model).length);
     button.onclick=()=>settle(()=>{if(session.dirty)return;try{commit(m=>{if(delta){item.index=moveMessage(m,item.index,delta);selection={...item};}else{const e=sequenceMessages(m)[item.index];if(e.activation)throw Error('Remove the activation change before reversing this message.');updateMessage(m,item.index,{from:e.to,to:e.from});}});api.hideMenu();canvas.focus();}catch(e){actionError(e);}});row.append(button);
    }root.append(row);
-   session=api.makeContextSave(root,()=>save(m=>updateMessage(m,item.index,{from:fields.from.value,to:fields.to.value,arrow:type.value,activation:fields.activation.value,label:fields['edge-label'].value})));
+   session=api.makeContextSave(root,()=>save(m=>updateMessage(m,item.index,{from:fields.from.value,to:fields.to.value,arrow:type.value,activation:fields.activation.value,label:labelFromInput(fields['edge-label'].value)})));
   }
   api.showContext(root,x,y);focusContextField(root,field);paint();
  }

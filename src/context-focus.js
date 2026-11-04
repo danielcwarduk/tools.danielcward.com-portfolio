@@ -4,10 +4,10 @@ export function focusContextField(root, field = 'label') {
     shape: ['[data-context-field="shape"]', '.compact-shapes button[aria-pressed="true"]', '.connection-types button[aria-pressed="true"]', '.compact-shapes button', '.connection-types button'],
     colour: ['.colour-swatch[aria-pressed="true"]', '.colour-swatch'],
     id: ['input[name="id"]'],
-    label: ['input[name="label"]', 'textarea[name="edge-label"]'],
+    label: ['input[name="label"]', '[name="edge-label"]'],
   };
   const target = (choices[field] || choices.label).map(selector => root.querySelector(selector)).find(Boolean)
-    || root.querySelector('input[name="label"],textarea[name="edge-label"],button');
+    || root.querySelector('input[name="label"],[name="edge-label"],button');
   if (!target) return;
   root.dataset.focusField = field;
   target.focus();

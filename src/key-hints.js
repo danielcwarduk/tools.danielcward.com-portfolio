@@ -1,3 +1,4 @@
+import {shapeShortcuts} from './shape-shortcuts';
 export function keyHints({focus,valid,sourceOnly,shift,alt,control,space,contextGrid,connecting,connectionTarget,nodes,group,edge,inGroup}){
  if(focus==='reverse')return {mode:'Connection',keys:[['Enter','Reverse direction'],['R','Line type'],['F','Colour'],['E','Label'],['F2','ID'],['Esc','Dismiss'],['Ctrl / ⌘ + Z','Undo']]};
  if(focus==='zoom')return {mode:'Zoom controls',keys:[['↑ / ↓','Adjust'],['Tab','Next control']]};
@@ -8,7 +9,7 @@ export function keyHints({focus,valid,sourceOnly,shift,alt,control,space,context
  if(focus!=='canvas')return {mode:'Canvas shortcuts',keys:[['Click canvas','Activate'],['F1','All shortcuts']]};
  if(!valid)return sourceOnly?{mode:'Source preview',keys:[['Edit source','Update diagram'],['F1','Shortcuts']]}:{mode:'Preview updating',keys:[['F1','All shortcuts']]};
  if(control)return {mode:'History',keys:shift||alt?[]:[['Z','Undo'],['Y','Redo']]};
- if(shift)return {mode:'Shift · Create shape',keys:alt?[]:[['R','Rectangle'],['C','Circle'],['D','Diamond'],['B','Database'],['T','Terminator'],['P','Parallelogram'],['F','Document']]};
+ if(shift)return {mode:'Shift · Create shape',keys:alt?[]:shapeShortcuts.map(([key,,name])=>[key.toUpperCase(),name])};
  if(space&&!alt)return {mode:'Space · Pan',keys:[['W A S D','Pan canvas']]};
  if(connecting)return {mode:'Connect',keys:[...(connectionTarget?[['Enter','Connect to '+connectionTarget]]:[]),['W A S D','Choose destination'],['Click shape','Connect now'],['Esc','Cancel']]};
  if(alt)return {mode:'Alt · Extend selection',keys:[['W A S D','Extend selection']]};
