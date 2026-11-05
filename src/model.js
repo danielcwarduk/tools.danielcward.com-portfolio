@@ -1,3 +1,4 @@
+import {splitPreamble} from './source-preamble';
 import {connectionPattern,decodeConnectionLabel,encodeConnectionLabel,mermaidConnection} from './connections';
 import {syncColourOverrides,hasUserClasses} from './colours';
 export const shapes = [
@@ -8,8 +9,10 @@ const ident='[A-Za-z_][A-Za-z0-9_]*';
 const legacy=[['([','])','stadium'],['[[',']]','subproc'],['((', '))','circle'],['[(',')]','cyl'],['[/','/]','lean-r'],['[',' ]','rect'],['{','}','diam'],['(',')','rounded']];
 function label(s){s=s.trim();if(s.startsWith('"')&&s.endsWith('"'))s=s.slice(1,-1);return s.replaceAll('&quot;','"').replaceAll('&#10;','\n').replaceAll('&amp;','&');}
 export function parse(source){
- const m={header:'',nodes:[],edges:[],groups:[],extras:[],error:null};let stack=[]; const fail=(i)=>{throw Error(`Line ${i+1}: syntax outside the safe visual subset. Edit source directly.`)};
- try {source.split('\n').forEach((raw,i)=>{let s=raw.trim();if(!s.startsWith('%%'))s=s.replace(/;$/,'');if(!s)return;
+ const {preamble,body}=splitPreamble(source);
+ const lineOffset=preamble.split('\n').length-1;
+ const m={preamble,header:'',nodes:[],edges:[],groups:[],extras:[],error:null};let stack=[]; const fail=(i)=>{throw Error(`Line ${i+1+lineOffset}: syntax outside the safe visual subset. Edit source directly.`)};
+ try {body.split('\n').forEach((raw,i)=>{let s=raw.trim();if(!s.startsWith('%%'))s=s.replace(/;$/,'');if(!s)return;
  if(!m.header){if(!/^(flowchart|graph)\s+(TD|TB|BT|LR|RL)$/.test(s))throw Error('Source preview mode: visual editing requires a simple flowchart header.');m.header=s;return;}
  if(s.startsWith('%%')){m.extras.push(s);return;}
  let a;if(a=s.match(new RegExp(`^subgraph (${ident})(?:\\["?([^"\\]]*)"?\\])?$`))){if(m.groups.some(g=>g.id===a[1]))fail(i);m.groups.push({id:a[1],label:label(a[2]||a[1]),parent:stack.at(-1)});stack.push(a[1]);return;}
@@ -26,7 +29,7 @@ export function parse(source){
  }catch(e){m.error=e.message;}return m;
 }
 const quote=s=>s.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('\n','&#10;');
-export function serialize(m){let rows=[m.header];function emit(parent,depth){const pad='    '.repeat(depth);for(const n of m.nodes.filter(n=>n.group===parent))rows.push(`${pad}${n.id}@{ shape: ${n.shape}, label: "${quote(n.label)}" }`);for(const g of m.groups.filter(g=>g.parent===parent)){rows.push(`${pad}subgraph ${g.id}["${quote(g.label)}"]`);emit(g.id,depth+1);rows.push(`${pad}end`);}}emit(undefined,1);rows.push('',...m.edges.map(mermaidConnection).map(e=>`    ${e.from} ${e.id?e.id+'@':''}${e.type}${e.label?'|"'+encodeConnectionLabel(e.label)+'"|':''} ${e.to}`));return [...rows,'',...m.extras].join('\n').trim()+'\n';}
+export function serialize(m){let rows=[m.header];function emit(parent,depth){const pad='    '.repeat(depth);for(const n of m.nodes.filter(n=>n.group===parent))rows.push(`${pad}${n.id}@{ shape: ${n.shape}, label: "${quote(n.label)}" }`);for(const g of m.groups.filter(g=>g.parent===parent)){rows.push(`${pad}subgraph ${g.id}["${quote(g.label)}"]`);emit(g.id,depth+1);rows.push(`${pad}end`);}}emit(undefined,1);rows.push('',...m.edges.map(mermaidConnection).map(e=>`    ${e.from} ${e.id?e.id+'@':''}${e.type}${e.label?'|"'+encodeConnectionLabel(e.label)+'"|':''} ${e.to}`));return (m.preamble||'')+[...rows,'',...m.extras].join('\n').trim()+'\n';}
 export function rewriteClasses(m,oldId,newId){m.extras=m.extras.flatMap(x=>{const a=x.match(/^class\s+([^ ]+)\s+(\S+);$/);if(!a)return [x];const ids=a[1].split(',').flatMap(id=>id===oldId?(newId?[newId]:[]):[id]);return ids.length?[`class ${ids.join(',')} ${a[2]};`]:[];});}
 export function colors(m){const start='%% --- Visual editor default colors (editable; editor palette, not ISO colors) ---';if(m.extras.some(x=>x.startsWith('%% --- Visual editor default colors')))throw Error('Color block already exists. Edit it directly; existing custom colors are preserved.');if(hasUserClasses(m))throw Error('Existing classes detected. Remove or edit those styles in source before appending defaults.');m.extras.push(start,'classDef flowTerminator fill:#dcfce7,stroke:#16a34a,color:#14532d;','classDef flowProcess fill:#dbeafe,stroke:#2563eb,color:#1e3a8a;','classDef flowDecision fill:#fef3c7,stroke:#d97706,color:#78350f;');syncColors(m);}
 function syncCategoryColors(m){if(!m.extras.some(x=>x.startsWith('%% --- Visual editor default colors')))return;m.extras=m.extras.filter(x=>!/^class .* flow(Terminator|Process|Decision);$/.test(x));for(const [cat,pred] of [['Terminator',n=>['stadium','circle','dbl-circ'].includes(n.shape)],['Decision',n=>n.shape==='diam'],['Process',n=>!['stadium','circle','dbl-circ','diam'].includes(n.shape)]]){const ids=m.nodes.filter(pred).map(n=>n.id);if(ids.length)m.extras.push(`class ${ids.join(',')} flow${cat};`);}}

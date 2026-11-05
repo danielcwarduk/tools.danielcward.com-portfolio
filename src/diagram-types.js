@@ -1,3 +1,5 @@
+import {splitPreamble} from './source-preamble.js';
+
 export const diagramTemplates=[
  {id:'flowchart',name:'Flowchart',detail:'Steps and decisions',visual:true,source:'flowchart TD\n    Start([Start])\n    Process[Do something]\n    Finish([Finish])\n    Start --> Process\n    Process --> Finish\n'},
  {id:'sequence',name:'Sequence',detail:'Participants and messages',visual:true,source:'sequenceDiagram\n    actor User\n    participant App\n    participant API\n    User->>App: Send request\n    App->>+API: Fetch data\n    API-->>-App: Return data\n    App-->>User: Show result\n'},
@@ -11,11 +13,9 @@ export const diagramTemplates=[
  {id:'journey',name:'User journey',detail:'Experiences and stages',source:'journey\n    title Using a tool\n    section Get started\n      Find the tool: 4: User\n      Create a diagram: 5: User\n    section Finish\n      Export the result: 5: User\n'},
 ];
 export function diagramType(source){
- const lines=source.replace(/^\uFEFF/,'').split(/\r?\n/);let frontmatter=false,first=true;
- for(const raw of lines){const line=raw.trim();if(!line||line.startsWith('%%'))continue;if(first&&line==='---'){frontmatter=true;first=false;continue;}first=false;if(frontmatter){if(line==='---')frontmatter=false;continue;}
+ const line=splitPreamble(source).body.split(/\r?\n/,1)[0].trim();
  const patterns=[['flowchart',/^(flowchart|graph)\b/],['sequence',/^sequenceDiagram\b/],['state',/^stateDiagram(?:-v2)?\b/],['class',/^classDiagram\b/],['er',/^erDiagram\b/],['gantt',/^gantt\b/],['pie',/^pie\b/],['timeline',/^timeline\b/],['mindmap',/^mindmap\b/],['journey',/^journey\b/]];
  return patterns.find(([,pattern])=>pattern.test(line))?.[0]||'other';
- }return 'other';
 }
 export function diagramName(type){return diagramTemplates.find(t=>t.id===type)?.name||'Diagram';}
 export function showNewDiagram(dialog,{onCreate,onClose}){
