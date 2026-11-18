@@ -3,14 +3,14 @@ import {splitPreamble} from './source-preamble.js';
 export const diagramTemplates=[
  {id:'flowchart',name:'Flowchart',detail:'Steps and decisions',visual:true,source:'flowchart TD\n    Start([Start])\n    Process[Do something]\n    Finish([Finish])\n    Start --> Process\n    Process --> Finish\n'},
  {id:'sequence',name:'Sequence',detail:'Participants and messages',visual:true,source:'sequenceDiagram\n    actor User\n    participant App\n    participant API\n    User->>App: Send request\n    App->>+API: Fetch data\n    API-->>-App: Return data\n    App-->>User: Show result\n'},
- {id:'state',name:'State',detail:'States and transitions',source:'stateDiagram-v2\n    [*] --> Ready\n    Ready --> Working: Start\n    Working --> Ready: Finish\n    Ready --> [*]: Close\n'},
- {id:'class',name:'Class',detail:'Classes and relationships',source:'classDiagram\n    class User {\n        +String name\n        +signIn()\n    }\n    class Account {\n        +String email\n    }\n    User --> Account: owns\n'},
- {id:'er',name:'Entity relationship',detail:'Entities and fields',source:'erDiagram\n    CUSTOMER ||--o{ ORDER : places\n    CUSTOMER {\n        int id PK\n        string name\n    }\n    ORDER {\n        int id PK\n        int customer_id FK\n    }\n'},
- {id:'gantt',name:'Gantt',detail:'Tasks and dates',source:'gantt\n    title Project plan\n    dateFormat YYYY-MM-DD\n    section Delivery\n    Plan :a, 2026-01-01, 3d\n    Build :b, after a, 5d\n    Review :after b, 2d\n'},
- {id:'pie',name:'Pie',detail:'Parts of a whole',source:'pie title Time allocation\n    "Design" : 30\n    "Build" : 50\n    "Review" : 20\n'},
- {id:'timeline',name:'Timeline',detail:'Events over time',source:'timeline\n    title Project milestones\n    Plan : Agree scope\n    Build : Create first version\n    Launch : Share the result\n'},
- {id:'mindmap',name:'Mind map',detail:'Ideas and branches',source:'mindmap\n    root((Project))\n        Ideas\n            Research\n            Sketch\n        Delivery\n            Build\n            Review\n'},
- {id:'journey',name:'User journey',detail:'Experiences and stages',source:'journey\n    title Using a tool\n    section Get started\n      Find the tool: 4: User\n      Create a diagram: 5: User\n    section Finish\n      Export the result: 5: User\n'},
+ {id:'state',name:'State',detail:'States and transitions',visual:true,source:'stateDiagram-v2\n    [*] --> Ready\n    Ready --> Working: Start\n    Working --> Ready: Finish\n    Ready --> [*]: Close\n'},
+ {id:'class',name:'Class',detail:'Classes and relationships',visual:true,source:'classDiagram\n    class User {\n        +String name\n        +signIn()\n    }\n    class Account {\n        +String email\n    }\n    User --> Account: owns\n'},
+ {id:'er',name:'Entity relationship',detail:'Entities and fields',visual:true,source:'erDiagram\n    CUSTOMER ||--o{ ORDER : places\n    CUSTOMER {\n        int id PK\n        string name\n    }\n    ORDER {\n        int id PK\n        int customer_id FK\n    }\n'},
+ {id:'gantt',name:'Gantt',detail:'Tasks and dates',visual:true,source:'gantt\n    title Project plan\n    dateFormat YYYY-MM-DD\n    section Delivery\n    Plan :a, 2026-01-01, 3d\n    Build :b, after a, 5d\n    Review :after b, 2d\n'},
+ {id:'pie',name:'Pie',detail:'Parts of a whole',visual:true,source:'pie title Time allocation\n    "Design" : 30\n    "Build" : 50\n    "Review" : 20\n'},
+ {id:'timeline',name:'Timeline',detail:'Events over time',visual:true,source:'timeline\n    title Project milestones\n    Plan : Agree scope\n    Build : Create first version\n    Launch : Share the result\n'},
+ {id:'mindmap',name:'Mind map',detail:'Ideas and branches',visual:true,source:'mindmap\n    root((Project))\n        Ideas\n            Research\n            Sketch\n        Delivery\n            Build\n            Review\n'},
+ {id:'journey',name:'User journey',detail:'Experiences and stages',visual:true,source:'journey\n    title Using a tool\n    section Get started\n      Find the tool: 4: User\n      Create a diagram: 5: User\n    section Finish\n      Export the result: 5: User\n'},
 ];
 export function diagramType(source){
  const line=splitPreamble(source).body.split(/\r?\n/,1)[0].trim();
